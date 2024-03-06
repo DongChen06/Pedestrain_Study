@@ -51,7 +51,16 @@ plt.plot(t, db_smoothed)
 plt.xlabel('Time')
 plt.ylabel('Decibel (dB)')
 plt.title('Positive Decibel Level Over Time')
+
+num_seconds = t[-1]
+num_ticks = int(np.ceil(num_seconds / 30))  # Number of ticks needed
+tick_positions = np.linspace(0, num_seconds, num_ticks)  # Positions at which to place the ticks
+tick_labels = [f'{int(p//60)}:{int(p%60):02d}' for p in tick_positions]  # Convert to mm:ss format
+
+plt.xticks(tick_positions, tick_labels, rotation=50)
+
 plt.axhline(y=threshold_dB, color='grey', linestyle='--', label=f'Threshold ({threshold_dB} dB)')
 plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(format_time))
 plt.tight_layout()
+plt.savefig('decibel_plot.png')
 plt.show()

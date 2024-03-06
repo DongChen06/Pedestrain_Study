@@ -36,6 +36,15 @@ librosa.display.specshow(heatmap_data, sr=22050, hop_length=hop_length, x_axis='
 plt.colorbar(format='%+2.0f dB')
 plt.xlabel('Time (s)')
 plt.ylabel('Decibel (dB)')
+
+num_seconds = t[-1]
+num_ticks = int(np.ceil(num_seconds / 30))  # Number of ticks needed
+tick_positions = np.linspace(0, num_seconds, num_ticks)  # Positions at which to place the ticks
+tick_labels = [f'{int(p//60)}:{int(p%60):02d}' for p in tick_positions]  # Convert to mm:ss format
+
+plt.xticks(tick_positions, tick_labels, rotation=50)
+
 plt.title('Decibel Level Heatmap')
 plt.tight_layout()
+plt.savefig('decibel_heatmap.png')
 plt.show()
