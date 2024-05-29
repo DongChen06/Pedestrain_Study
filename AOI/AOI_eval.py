@@ -4,10 +4,10 @@ import os, csv
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Test AOI Classifier')
-    parser.add_argument('--model_name', type=str, required=False, default='resnet50',
+    parser.add_argument('--model_name', type=str, required=False, default='densenet161',
                         help="choose a deep learning model")
     parser.add_argument('--EVAL_DIR', type=str, required=False,
-                        default='/home/dong9/PycharmProjects/Pedestrain_Study/Data/test', help="dir for the testing image")
+                        default='/home/dong9/PycharmProjects/Pedestrain_Study/Data/Whole_images/test', help="dir for the testing image")
     parser.add_argument('--seeds', type=int, required=False, default=0,
                         help="random seed")
     parser.add_argument('--device', type=int, required=False, default=0,
@@ -48,7 +48,7 @@ model_name = args.model_name
 if args.use_weighting:
     EVAL_MODEL = './models/' + model_name + '_' + str(args.seeds) + '_w' + ".pth"
 else:
-    EVAL_MODEL = './models/resnet50_0_A.pth'
+    EVAL_MODEL = './models/densenet161_0_A.pth'
 img_size = args.img_size
 bs = args.batch_size
 
@@ -93,15 +93,15 @@ dsize = len(eval_dataset)
 #                '7_GeneralLightFeatures', '8_Pedestrians', '9_Cyclists', '10_OtherPeople', '11_Storefronts', '12_ExternalStoreElements',
 #                '13_OtherStructures', '14_ArtandBanners', '15_NaturalElements', '16_GeneralInfrastructure', '17_UndeterminedandBlurry']
 
-# class_names = ['10_OtherPeople', '11_Storefront', '12_ExternalStoreElements', '13_OtherStructures',
-#                '14_ArtandBanners', '15_NaturalElements', '16_GeneralInfrastructure', '17_UndeterminedandBlurry',
-#                '1_MovingVehicle', '2_ParkedVehicle', '3_GenPedTI', '4_Non-PedTI', '5_Non-LightedCrossing',
-#                '6_LightedCrossing', '7_GeneralLightFeatures', '8_Pedestrians', '9_Cyclists']
+class_names = ['ArtandBanners', 'Cyclists', 'GeneralInfrastructure', 'GenPedTI',
+               'LightedCrossing', 'MovingVehicle', 'NaturalElements', 'Non-LightedCrossing',
+               'Non-PedTI', 'OtherStructures', 'ParkedVehicle', 'Pedestrians', 'Storefront',
+               'UndeterminedandBlurry']
 
-class_names = ['10', '11', '12', '13',
-               '14', '15', '16', '17',
-               '1', '2', '3', '4', '5',
-               '6', '7', '8', '9']
+# class_names = ['10', '11', '12', '13',
+#                '14', '15', '16', '17',
+#                '1', '2', '3', '4', '5',
+#                '6', '7', '8', '9']
 
 # Initialize the prediction and label lists
 predlist = torch.zeros(0, dtype=torch.long, device='cpu')

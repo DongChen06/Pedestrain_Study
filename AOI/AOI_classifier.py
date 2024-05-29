@@ -11,18 +11,18 @@ def parse_args():
     parser.add_argument('--valid_directory', type=str, required=False,
                         default='/home/dong9/PycharmProjects/Pedestrain_Study/Data/Whole_images/val',
                         help="validation directory")
-    parser.add_argument('--model_name', type=str, required=False, default='resnet50',
+    parser.add_argument('--model_name', type=str, required=False, default='densenet161',
                         help="choose a deep learning model")
     parser.add_argument('--train_mode', type=str, required=False, default='finetune',
                         help="Set training mode: finetune, transfer, scratch")
-    parser.add_argument('--num_classes', type=int, required=False, default=17, help="Number of Classes")
+    parser.add_argument('--num_classes', type=int, required=False, default=14, help="Number of Classes")
     parser.add_argument('--seeds', type=int, required=False, default=0,
                         help="random seed")
     parser.add_argument('--is_augmentation', type=bool, required=False, default=True,
                         help="use data augmentation or not")
     parser.add_argument('--device', type=int, required=False, default=0,
                         help="GPU device")
-    parser.add_argument('--epochs', type=int, required=False, default=50, help="Training Epochs")
+    parser.add_argument('--epochs', type=int, required=False, default=20, help="Training Epochs")
     parser.add_argument('--batch_size', type=int, required=False, default=12, help="Training batch size")
     parser.add_argument('--img_size', type=int, required=False, default=512, help="Image Size")
     parser.add_argument('--use_weighting', type=bool, required=False, default=False,
@@ -331,7 +331,7 @@ def main():
         print("Invalid model name, exiting...")
         exit()
 
-    device = torch.device("cuda:0")
+    device = torch.device("cuda:0")  # cpu, cuda:0
     # model_ft = nn.DataParallel(model_ft)
     model_ft = model_ft.to(device)
 
@@ -359,8 +359,7 @@ def main():
     else:
         weights = np.array([1, 1, 1, 1, 1,
                             1, 1, 1, 1, 1,
-                            1, 1, 1, 1, 1,
-                            1, 1])
+                            1, 1, 1, 1])
         class_weight = torch.FloatTensor(list(weights)).to(device)
 
     pytorch_total_params = sum(p.numel() for p in model_ft.parameters() if p.requires_grad)
